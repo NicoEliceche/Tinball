@@ -1,0 +1,13 @@
+import { FlatList, Pressable, Text, View } from 'react-native';
+import styled from 'styled-components/native';
+import type { AppNotification } from '../types/notification.types';
+export const Screen = styled(View)`flex: 1; background-color: ${({ theme }) => theme.colors.background};`;
+export const List = styled(FlatList<AppNotification>).attrs(({ theme }) => ({ contentContainerStyle: { padding: theme.spacing.md, paddingBottom: theme.spacing.hero, gap: theme.spacing.xs }, contentInsetAdjustmentBehavior: 'automatic' as const, showsVerticalScrollIndicator: false }))``;
+export const Header = styled(View)`margin-bottom: ${({ theme }) => theme.spacing.sm}px;`;
+export const Card = styled(View)<{ $read: boolean }>`padding: ${({ theme }) => theme.spacing.md}px; border-width: 1px; border-color: ${({ theme, $read }) => $read ? theme.colors.border : theme.colors.primaryBorder}; border-radius: ${({ theme }) => theme.radius.md}px; background-color: ${({ theme, $read }) => $read ? theme.colors.surface : theme.colors.primaryMuted}; gap: ${({ theme }) => theme.spacing.xxs}px;`;
+export const Title = styled(Text)`color: ${({ theme }) => theme.colors.text}; font-family: ${({ theme }) => theme.typography.family.semibold}; font-size: ${({ theme }) => theme.typography.size.md}px;`;
+export const Body = styled(Text)`color: ${({ theme }) => theme.colors.textSecondary}; font-family: ${({ theme }) => theme.typography.family.body}; font-size: ${({ theme }) => theme.typography.size.sm}px;`;
+export const Time = styled(Text)`color: ${({ theme }) => theme.colors.textMuted}; font-family: ${({ theme }) => theme.typography.family.body}; font-size: ${({ theme }) => theme.typography.size.xs}px;`;
+export const InviteActions = styled(View)`flex-direction: row; gap: ${({ theme }) => theme.spacing.xs}px;`;
+export const InviteButton = styled(Pressable)<{ $accept?: boolean }>`min-height: 44px; flex: 1; align-items: center; justify-content: center; border-radius: ${({ theme }) => theme.radius.md}px; border-width: 1px; border-color: ${({ theme, $accept }) => $accept ? theme.colors.primary : theme.colors.border}; background-color: ${({ theme, $accept }) => $accept ? theme.colors.primaryMuted : theme.colors.surfaceElevated};`;
+export const InviteText = styled(Text)<{ $accept?: boolean }>`color: ${({ theme, $accept }) => $accept ? theme.colors.primary : theme.colors.textSecondary}; font-family: ${({ theme }) => theme.typography.family.semibold};`;

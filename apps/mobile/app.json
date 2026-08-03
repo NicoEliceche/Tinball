@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "Tinball",
+    "slug": "tinball",
+    "version": "0.1.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "scheme": "tinball",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nicoeliceche.tinball",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.nicoeliceche.tinball",
+      "predictiveBackGestureEnabled": true,
+      "adaptiveIcon": {
+        "backgroundColor": "#07090C",
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "monochromeImage": "./assets/monochrome-icon.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-dev-client",
+      "expo-secure-store",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Barlow_400Regular.ttf",
+            "./assets/fonts/Barlow_500Medium.ttf",
+            "./assets/fonts/Barlow_600SemiBold.ttf",
+            "./assets/fonts/Barlow_700Bold.ttf",
+            "./assets/fonts/BarlowCondensed_700Bold.ttf",
+            "./assets/fonts/BarlowCondensed_800ExtraBold.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#07090C",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 190,
+          "resizeMode": "contain"
+        }
+      ]
+    ]
+  }
+}

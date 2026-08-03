@@ -1,0 +1,50 @@
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: tinball-api
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm ci --include=dev && npm run render:build
+    startCommand: npm run start
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: SESSION_PEPPER
+        generateValue: true
+      - key: AUDIT_HASH_SECRET
+        generateValue: true
+      - key: IP_HASH_SECRET
+        generateValue: true
+      - key: GOOGLE_WEB_CLIENT_ID
+        sync: false
+      - key: GOOGLE_ANDROID_CLIENT_ID
+        sync: false
+      - key: GOOGLE_IOS_CLIENT_ID
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: UPSTASH_REDIS_REST_URL
+        sync: false
+      - key: UPSTASH_REDIS_REST_TOKEN
+        sync: false
+      - key: WORKER_SECRET
+        sync: false
+      - key: SECURITY_ALERT_WEBHOOK_URL
+        sync: false
+      - key: SECURITY_ALERT_WEBHOOK_TOKEN
+        sync: false
+      - key: ENABLE_PRIZE_LOBBIES
+        value: "false"
+      - key: ENABLE_REFERRAL_PAYOUTS
+        value: "false"
+      - key: ENABLE_VENUE_BOOKINGS
+        value: "false"
+      - key: ENABLE_PREMIUM_PURCHASES
+        value: "false"

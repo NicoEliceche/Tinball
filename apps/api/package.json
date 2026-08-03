@@ -1,0 +1,40 @@
+{
+  "name": "@tinball/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server.js",
+    "workers": "node dist/workers/run.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src --max-warnings=0",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/cors": "^11.1.0",
+    "@fastify/helmet": "^13.0.2",
+    "@fastify/rate-limit": "^10.3.0",
+    "@prisma/client": "6.19.3",
+    "@tinball/contracts": "0.1.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.35.6",
+    "dotenv": "^17.2.3",
+    "fastify": "^5.11.0",
+    "fastify-plugin": "^5.1.0",
+    "google-auth-library": "^10.9.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.1.0",
+    "eslint": "^9.39.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.46.2",
+    "vitest": "^4.0.0"
+  }
+}

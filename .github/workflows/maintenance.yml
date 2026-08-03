@@ -1,0 +1,30 @@
+name: Maintenance
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tinball-maintenance
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Run protected maintenance tasks
+        env:
+          API_URL: ${{ secrets.TINBALL_API_URL }}
+          WORKER_SECRET: ${{ secrets.TINBALL_WORKER_SECRET }}
+        run: |
+          test -n "$API_URL"
+          test -n "$WORKER_SECRET"
+          curl --fail-with-body --silent --show-error --retry 2 \
+            --request POST \
+            --header "Authorization: Bearer $WORKER_SECRET" \
+            "$API_URL/internal/workers/run"

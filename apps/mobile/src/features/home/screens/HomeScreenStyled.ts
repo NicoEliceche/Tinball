@@ -1,0 +1,25 @@
+import { FlatList, Pressable, Text, View } from 'react-native';
+import styled from 'styled-components/native';
+import type { FeedPost } from '../../../core/types/social.types';
+export const Screen = styled(View)`flex: 1; background-color: ${({ theme }) => theme.colors.background};`;
+export const List = styled(FlatList<FeedPost>).attrs(({ theme }) => ({ contentContainerStyle: { padding: theme.spacing.md, paddingBottom: theme.spacing.hero, gap: theme.spacing.md }, contentInsetAdjustmentBehavior: 'automatic' as const, showsVerticalScrollIndicator: false }))``;
+export const Header = styled(View)`gap: ${({ theme }) => theme.spacing.lg}px; margin-bottom: ${({ theme }) => theme.spacing.xs}px;`;
+export const BrandRow = styled(View)`flex-direction: row; align-items: center; justify-content: space-between; gap: ${({ theme }) => theme.spacing.md}px;`;
+export const Welcome = styled(View)`flex: 1;`;
+export const Kicker = styled(Text)`color: ${({ theme }) => theme.colors.textSecondary}; font-family: ${({ theme }) => theme.typography.family.medium}; font-size: ${({ theme }) => theme.typography.size.sm}px;`;
+export const Title = styled(Text)`color: ${({ theme }) => theme.colors.text}; font-family: ${({ theme }) => theme.typography.family.displayExtra}; font-size: ${({ theme }) => theme.typography.size.xxl}px;`;
+export const IconButton = styled(Pressable)`width: 48px; height: 48px; border-radius: ${({ theme }) => theme.radius.full}px; align-items: center; justify-content: center; background-color: ${({ theme }) => theme.colors.surface}; border-width: 1px; border-color: ${({ theme }) => theme.colors.border};`;
+export const NextMatch = styled(Pressable)`padding: ${({ theme }) => theme.spacing.lg}px; border-radius: ${({ theme }) => theme.radius.xl}px; background-color: ${({ theme }) => theme.colors.primaryMuted}; border-width: 1px; border-color: ${({ theme }) => theme.colors.primaryBorder}; gap: ${({ theme }) => theme.spacing.sm}px;`;
+export const HeroKicker = styled(Text)`color: ${({ theme }) => theme.colors.primary}; font-family: ${({ theme }) => theme.typography.family.bold}; font-size: ${({ theme }) => theme.typography.size.xs}px; letter-spacing: 1.4px; text-transform: uppercase;`;
+export const HeroTitle = styled(Text)`color: ${({ theme }) => theme.colors.text}; font-family: ${({ theme }) => theme.typography.family.displayExtra}; font-size: ${({ theme }) => theme.typography.size.xxl}px;`;
+export const HeroMeta = styled(Text)`color: ${({ theme }) => theme.colors.textSecondary}; font-family: ${({ theme }) => theme.typography.family.medium}; font-size: ${({ theme }) => theme.typography.size.sm}px;`;
+export const ActionsGrid = styled(View)`flex-direction: row; flex-wrap: wrap; gap: ${({ theme }) => theme.spacing.sm}px;`;
+export const QuickAction = styled(Pressable)`width: 48%; min-height: 94px; flex-grow: 1; padding: ${({ theme }) => theme.spacing.md}px; border-radius: ${({ theme }) => theme.radius.lg}px; background-color: ${({ theme }) => theme.colors.surface}; border-width: 1px; border-color: ${({ theme }) => theme.colors.border}; justify-content: space-between;`;
+export const QuickLabel = styled(Text)`color: ${({ theme }) => theme.colors.text}; font-family: ${({ theme }) => theme.typography.family.semibold}; font-size: ${({ theme }) => theme.typography.size.sm}px;`;
+export const PointsCard = styled(Pressable)`padding: ${({ theme }) => theme.spacing.md}px; border-radius: ${({ theme }) => theme.radius.lg}px; background-color: ${({ theme }) => theme.colors.surface}; border-width: 1px; border-color: ${({ theme }) => theme.colors.border}; flex-direction: row; align-items: center; gap: ${({ theme }) => theme.spacing.md}px;`;
+export const Points = styled(Text)`color: ${({ theme }) => theme.colors.primary}; font-family: ${({ theme }) => theme.typography.family.displayExtra}; font-size: ${({ theme }) => theme.typography.size.xxl}px;`;
+export const PointsCopy = styled(View)`flex: 1;`;
+export const PointsTitle = styled(Text)`color: ${({ theme }) => theme.colors.text}; font-family: ${({ theme }) => theme.typography.family.semibold}; font-size: ${({ theme }) => theme.typography.size.md}px;`;
+export const PointsMeta = styled(Text)`color: ${({ theme }) => theme.colors.textSecondary}; font-family: ${({ theme }) => theme.typography.family.body}; font-size: ${({ theme }) => theme.typography.size.sm}px;`;
+export const SectionGap = styled(View)`height: ${({ theme }) => theme.spacing.xxs}px;`;
+

@@ -1,0 +1,25 @@
+import type { FastifyInstance } from 'fastify';
+import { authRoutes } from './features/auth/routes.js';
+import { accountRoutes } from './features/account/routes.js';
+import { healthRoutes } from './features/health/routes.js';
+import { profileRoutes } from './features/profile/routes.js';
+import { playerRoutes } from './features/players/routes.js';
+import { lobbyRoutes } from './features/lobbies/routes.js';
+import { matchRoutes } from './features/matches/routes.js';
+import { chatRoutes } from './features/chat/routes.js';
+import { reviewRoutes } from './features/reviews/routes.js';
+import { socialRoutes } from './features/social/routes.js';
+import { catalogRoutes } from './features/catalog/routes.js';
+import { internalRoutes } from './features/internal/routes.js';
+import { teamRoutes } from './features/teams/routes.js';
+import { tournamentRoutes } from './features/tournaments/routes.js';
+import { rewardRoutes } from './features/rewards/routes.js';
+import { notificationRoutes } from './features/notifications/routes.js';
+import { referralRoutes } from './features/referrals/routes.js';
+import { reportRoutes } from './features/reports/routes.js';
+import { moderationRoutes } from './features/moderation/routes.js';
+import { venueRoutes } from './features/venues/routes.js';
+import { suspensionRoutes } from './features/suspensions/routes.js';
+import { inviteRoutes } from './features/invites/routes.js';
+import { premiumRoutes } from './features/premium/routes.js';
+export async function registerRoutes(app: FastifyInstance) { await healthRoutes(app); await authRoutes(app); await accountRoutes(app); await profileRoutes(app); await playerRoutes(app); await inviteRoutes(app); await lobbyRoutes(app); await matchRoutes(app); await teamRoutes(app); await chatRoutes(app); await reviewRoutes(app); await socialRoutes(app); await catalogRoutes(app); await tournamentRoutes(app); await rewardRoutes(app); await premiumRoutes(app); await notificationRoutes(app); await referralRoutes(app); await reportRoutes(app); await moderationRoutes(app); await venueRoutes(app); await suspensionRoutes(app); await internalRoutes(app); }

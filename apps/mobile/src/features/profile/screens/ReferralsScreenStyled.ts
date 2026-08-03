@@ -1,0 +1,8 @@
+import { Pressable, Text, TextInput, View } from 'react-native';
+import styled from 'styled-components/native';
+export const CodeBox = styled(View)`padding: ${({ theme }) => theme.spacing.xl}px; border-radius: ${({ theme }) => theme.radius.xl}px; border-width: 1px; border-style: dashed; border-color: ${({ theme }) => theme.colors.primary}; background-color: ${({ theme }) => theme.colors.primaryMuted}; align-items: center; gap: ${({ theme }) => theme.spacing.xs}px;`;
+export const Code = styled(Text)`color: ${({ theme }) => theme.colors.primary}; font-family: ${({ theme }) => theme.typography.family.displayExtra}; font-size: ${({ theme }) => theme.typography.size.xxl}px; letter-spacing: 2px;`;
+export const CopyButton = styled(Pressable)`min-height: 44px; justify-content: center;`;
+export const CopyText = styled(Text)`color: ${({ theme }) => theme.colors.text}; font-family: ${({ theme }) => theme.typography.family.semibold}; font-size: ${({ theme }) => theme.typography.size.sm}px;`;
+export const ClaimRow = styled(View)`flex-direction: row; align-items: center; gap: ${({ theme }) => theme.spacing.xs}px;`;
+export const ClaimField = styled(TextInput).attrs(({ theme }) => ({ placeholderTextColor: theme.colors.textMuted, autoCapitalize: 'characters' as const }))`flex: 1; min-height: ${({ theme }) => theme.layout.touchTarget}px; padding: 0 ${({ theme }) => theme.spacing.md}px; border-width: 1px; border-color: ${({ theme }) => theme.colors.border}; border-radius: ${({ theme }) => theme.radius.md}px; background-color: ${({ theme }) => theme.colors.surface}; color: ${({ theme }) => theme.colors.text}; font-family: ${({ theme }) => theme.typography.family.body};`;
