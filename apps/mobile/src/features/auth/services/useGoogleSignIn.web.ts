@@ -3,7 +3,12 @@ import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import { useCallback } from 'react';
 
-WebBrowser.maybeCompleteAuthSession();
+// GitHub Pages canonicaliza `/Tinball` a `/Tinball/`.
+// En ese caso, Expo WebBrowser puede rechazar el cierre del popup por un mismatch
+// de URL aunque el origen y el estado OAuth sean correctos.
+WebBrowser.maybeCompleteAuthSession({
+  skipRedirectCheck: Boolean(process.env.EXPO_PUBLIC_BASE_PATH),
+});
 
 const redirectUriOptions = process.env.EXPO_PUBLIC_BASE_PATH
   ? { path: process.env.EXPO_PUBLIC_BASE_PATH }
