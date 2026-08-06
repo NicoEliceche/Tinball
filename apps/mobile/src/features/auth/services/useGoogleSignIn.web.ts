@@ -5,6 +5,10 @@ import { useCallback } from 'react';
 
 WebBrowser.maybeCompleteAuthSession();
 
+const redirectUriOptions = process.env.EXPO_PUBLIC_BASE_PATH
+  ? { path: process.env.EXPO_PUBLIC_BASE_PATH }
+  : {};
+
 export function useGoogleSignIn() {
   const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
   const configurationError = webClientId ? null : 'Falta EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID.';
@@ -15,7 +19,7 @@ export function useGoogleSignIn() {
     responseType: ResponseType.IdToken,
     scopes: ['openid', 'profile', 'email'],
     selectAccount: true,
-  });
+  }, redirectUriOptions);
   const signIn = useCallback(async (): Promise<string | null> => {
     if (configurationError) throw new Error(configurationError);
     const result = await promptAsync();
