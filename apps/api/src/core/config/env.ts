@@ -2,6 +2,16 @@ import 'dotenv/config';
 import { z } from 'zod';
 
 const booleanString = z.enum(['true', 'false']).transform((value) => value === 'true');
+const defaultProductionWebOrigin = 'https://nicoeliceche.github.io';
+
+function normalizeOrigin(value: string): string | null {
+  try {
+    return new URL(value).origin;
+  } catch {
+    return null;
+  }
+}
+
 const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().min(1).max(65_535).default(3001),
@@ -31,8 +41,13 @@ if (!parsed.success) {
   throw new Error(`Invalid server environment: ${details}`);
 }
 
+const corsOrigins = Array.from(new Set([
+  ...parsed.data.CORS_ORIGINS.split(',').map((origin) => origin.trim()).filter(Boolean).map(normalizeOrigin).filter((origin): origin is string => Boolean(origin)),
+  ...(parsed.data.NODE_ENV === 'production' ? [defaultProductionWebOrigin] : []),
+]));
+
 export const env = {
   ...parsed.data,
-  corsOrigins: parsed.data.CORS_ORIGINS.split(',').map((origin) => origin.trim()).filter(Boolean),
+  corsOrigins,
   googleAudiences: [parsed.data.GOOGLE_WEB_CLIENT_ID, parsed.data.GOOGLE_ANDROID_CLIENT_ID, parsed.data.GOOGLE_IOS_CLIENT_ID].filter((value): value is string => Boolean(value)),
 };
