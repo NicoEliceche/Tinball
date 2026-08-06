@@ -6,6 +6,7 @@ import { createOpaqueToken, hashSessionToken } from './crypto.js';
 
 export const SESSION_COOKIE = 'tinball_session';
 const SESSION_DAYS = 30;
+const webCookieSameSite = process.env.NODE_ENV === 'production' ? 'none' : 'lax';
 
 export async function createSession(input: { userId: string; platform: AuthPlatform; deviceName?: string; ipHash?: string; userAgentHash?: string }) {
   const rawToken = createOpaqueToken();
@@ -15,11 +16,11 @@ export async function createSession(input: { userId: string; platform: AuthPlatf
 }
 
 export function setWebSessionCookie(reply: FastifyReply, token: string, expiresAt: Date): void {
-  reply.setCookie(SESSION_COOKIE, token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/', expires: expiresAt });
+  reply.setCookie(SESSION_COOKIE, token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: webCookieSameSite, path: '/', expires: expiresAt });
 }
 
 export function clearWebSessionCookie(reply: FastifyReply): void {
-  reply.clearCookie(SESSION_COOKIE, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/' });
+  reply.clearCookie(SESSION_COOKIE, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: webCookieSameSite, path: '/' });
 }
 
 function extractToken(request: FastifyRequest): string | null {
