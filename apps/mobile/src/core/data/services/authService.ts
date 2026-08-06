@@ -12,6 +12,7 @@ export async function loginWithGoogleIdToken(idToken: string): Promise<AuthRespo
   const auth = await apiRequest<AuthResponse>('/api/v1/auth/google', {
     method: 'POST',
     body: { idToken, platform: currentPlatform(), deviceName: `${Platform.OS} Tinball` },
+    timeoutMs: 30_000,
   });
   if (Platform.OS !== 'web') {
     if (!auth.sessionToken) throw new Error('El servidor no devolvió una sesión nativa.');
@@ -36,4 +37,3 @@ export async function logoutSession(): Promise<void> {
 export async function completeProfile(input: unknown): Promise<AuthUser> {
   return apiRequest<AuthUser>('/api/v1/profile/onboarding', { method: 'PUT', body: input });
 }
-
