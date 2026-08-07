@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import { getStoredSessionToken } from '../services/authTokenStorage';
 
 const apiBaseUrl = process.env.EXPO_PUBLIC_API_URL?.replace(/\/$/, '');
@@ -25,7 +24,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), options.timeoutMs ?? 15_000);
-  const token = Platform.OS === 'web' ? null : await getStoredSessionToken();
+  const token = await getStoredSessionToken();
 
   try {
     const response = await fetch(`${apiBaseUrl}${path}`, {
@@ -65,4 +64,3 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     clearTimeout(timeout);
   }
 }
-

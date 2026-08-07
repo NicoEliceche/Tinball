@@ -14,10 +14,8 @@ export async function loginWithGoogleIdToken(idToken: string): Promise<AuthRespo
     body: { idToken, platform: currentPlatform(), deviceName: `${Platform.OS} Tinball` },
     timeoutMs: 30_000,
   });
-  if (Platform.OS !== 'web') {
-    if (!auth.sessionToken) throw new Error('El servidor no devolvió una sesión nativa.');
-    await storeSessionToken(auth.sessionToken);
-  }
+  if (auth.sessionToken) await storeSessionToken(auth.sessionToken);
+  else if (Platform.OS !== 'web') throw new Error('El servidor no devolvió una sesión nativa.');
   return auth;
 }
 

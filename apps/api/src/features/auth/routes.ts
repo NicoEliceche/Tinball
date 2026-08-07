@@ -50,7 +50,7 @@ export async function authRoutes(app: FastifyInstance) {
     const session = await createSession({ userId: user.id, platform, deviceName: input.deviceName, ipHash: hashPrivateValue(request.ip), userAgentHash: request.headers['user-agent'] ? hashPrivateValue(request.headers['user-agent']) : undefined });
     if (platform === AuthPlatform.WEB) setWebSessionCookie(reply, session.rawToken, session.expiresAt);
     await writeAudit({ actorUserId: user.id, sessionId: session.session.id, action: 'auth.google', outcome: 'success', targetType: 'session', targetId: session.session.id, requestId: request.id, ip: request.ip, userAgent: request.headers['user-agent'], metadata: { platform: input.platform } });
-    const response: AuthResponse = { user: publicUser(user), platform: input.platform, expiresAt: session.expiresAt.toISOString(), ...(platform === AuthPlatform.WEB ? {} : { sessionToken: session.rawToken }) };
+    const response: AuthResponse = { user: publicUser(user), platform: input.platform, expiresAt: session.expiresAt.toISOString(), sessionToken: session.rawToken };
     return reply.code(200).send(response);
   });
 
