@@ -31,7 +31,7 @@ function AppFlow() {
   useEffect(() => { if (dataStatus === 'READY' && themePreferences.mode !== storedThemeMode) themePreferences.setMode(storedThemeMode); }, [dataStatus, storedThemeMode, themePreferences]);
   useEffect(() => { if (status !== 'RESTORING') SplashScreen.hideAsync().catch(() => undefined); }, [status]);
   const needsProductData = status === 'AUTHENTICATED' && auth?.user.accountStatus === 'ACTIVE' && Boolean(auth.user.onboardingComplete) && !isDemo;
-  return <AppSurface><StatusBar style={theme.dark ? 'light' : 'dark'} />{status === 'RESTORING' ? <LoadingScreen /> : status === 'ANONYMOUS' ? <LoginScreen /> : auth?.user.accountStatus === 'SUSPENDED' ? <SuspendedAccountScreen /> : auth && !auth.user.onboardingComplete ? <OnboardingScreen /> : needsProductData && dataStatus === 'ERROR' ? <ErrorState message={dataError ?? 'Revisá tu conexión e intentá nuevamente.'} onRetry={clearData} /> : needsProductData && dataStatus !== 'READY' ? <LoadingScreen message="Cargando tu vestuario…" /> : <AppNavigator />}</AppSurface>;
+  return <AppSurface><StatusBar style={theme.dark ? 'light' : 'dark'} />{status === 'RESTORING' ? <LoadingScreen /> : status === 'ANONYMOUS' ? <LoginScreen /> : auth?.user.accountStatus === 'SUSPENDED' ? <SuspendedAccountScreen /> : auth && !auth.user.onboardingComplete ? <OnboardingScreen /> : needsProductData && dataStatus === 'ERROR' ? <ErrorState message={dataError ?? 'Revisá tu conexión e intentá nuevamente.'} onRetry={clearData} /> : <AppNavigator />}</AppSurface>;
 }
 
 export default function App() {
