@@ -82,17 +82,34 @@ const matchStatus = (status: string): Match['status'] => {
   return 'CALLING';
 };
 
+async function safeRequest<T>(label: string, request: Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await request;
+  } catch (error) {
+    console.warn(`Tinball bootstrap fallback for ${label}.`, error);
+    return fallback;
+  }
+}
+
 export async function loadProductData(): Promise<ProductData> {
+  const emptyProfile: ProfileResponse = {
+    id: '',
+    rewardPoints: 0,
+    settings: null,
+    profile: null,
+    teamMemberships: [],
+    _count: { matchParticipations: 0, referralsMade: 0 },
+  };
   const [profile, playerPage, lobbyPage, matchPage, feedPage, rankingPage, rewardPage, venuePage, conversationPage] = await Promise.all([
-    apiRequest<ProfileResponse>('/api/v1/profile/me'),
-    apiRequest<{ items: PlayerResponse[] }>('/api/v1/players/discover'),
-    apiRequest<{ items: Lobby[] }>('/api/v1/lobbies?limit=50'),
-    apiRequest<{ items: MatchResponse[] }>('/api/v1/matches/me'),
-    apiRequest<{ items: FeedResponse[] }>('/api/v1/feed?limit=50'),
-    apiRequest<RankingResponse>('/api/v1/rankings/current'),
-    apiRequest<{ items: RewardResponse[] }>('/api/v1/rewards'),
-    apiRequest<{ items: VenueResponse[] }>('/api/v1/venues?limit=50'),
-    apiRequest<{ items: ConversationResponse[] }>('/api/v1/conversations'),
+    safeRequest('profile', apiRequest<ProfileResponse>('/api/v1/profile/me', { timeoutMs: 30_000 }), emptyProfile),
+    safeRequest('players', apiRequest<{ items: PlayerResponse[] }>('/api/v1/players/discover', { timeoutMs: 30_000 }), { items: [] }),
+    safeRequest('lobbies', apiRequest<{ items: Lobby[] }>('/api/v1/lobbies?limit=50', { timeoutMs: 30_000 }), { items: [] }),
+    safeRequest('matches', apiRequest<{ items: MatchResponse[] }>('/api/v1/matches/me', { timeoutMs: 30_000 }), { items: [] }),
+    safeRequest('feed', apiRequest<{ items: FeedResponse[] }>('/api/v1/feed?limit=50', { timeoutMs: 30_000 }), { items: [] }),
+    safeRequest('rankings', apiRequest<RankingResponse>('/api/v1/rankings/current', { timeoutMs: 30_000 }), { period: null }),
+    safeRequest('rewards', apiRequest<{ items: RewardResponse[] }>('/api/v1/rewards', { timeoutMs: 30_000 }), { items: [] }),
+    safeRequest('venues', apiRequest<{ items: VenueResponse[] }>('/api/v1/venues?limit=50', { timeoutMs: 30_000 }), { items: [] }),
+    safeRequest('conversations', apiRequest<{ items: ConversationResponse[] }>('/api/v1/conversations', { timeoutMs: 30_000 }), { items: [] }),
   ]);
 
   const rankings = (rankingPage.period?.entries ?? []).map((entry, index) => ({
