@@ -20,6 +20,7 @@ export function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const theme = useTheme();
   const { auth, isDemo } = useAuth();
+  const currentProfile = useTinballStore((state) => state.currentProfile);
   const feed = useTinballStore((state) => state.feed);
   const nextMatch = useTinballStore((state) => state.matches.find((match) => match.status === 'CONFIRMED'));
   const rewardPoints = useTinballStore((state) => state.rewardPoints);
@@ -38,7 +39,7 @@ export function HomeScreen() {
 
   const header = (
     <Header>
-      <BrandRow><AppLogo size={52} /><Welcome><Kicker>Buen día, {auth?.user.displayName.split(' ')[0] ?? 'futbolista'}</Kicker><Title>¿Jugamos?</Title></Welcome><IconButton accessibilityRole="button" accessibilityLabel="Notificaciones" onPress={() => navigation.navigate('Notifications')}><Ionicons name="notifications-outline" size={23} color={theme.colors.text} /></IconButton></BrandRow>
+      <BrandRow><AppLogo size={52} /><Welcome><Kicker>Buen día, {currentProfile?.nickname?.trim() || auth?.user.displayName.split(' ')[0] || 'futbolista'}</Kicker><Title>¿Jugamos?</Title></Welcome><IconButton accessibilityRole="button" accessibilityLabel="Notificaciones" onPress={() => navigation.navigate('Notifications')}><Ionicons name="notifications-outline" size={23} color={theme.colors.text} /></IconButton></BrandRow>
       {nextMatch ? <NextMatch accessibilityRole="button" accessibilityLabel={`Próximo partido ${nextMatch.title}`} onPress={() => navigation.navigate('MatchDetail', { matchId: nextMatch.id })}><BrandRow><HeroKicker>Próximo partido</HeroKicker><StatusPill label="Confirmado" tone="primary" icon="checkmark-circle-outline" /></BrandRow><HeroTitle>{nextMatch.homeTeam} vs. {nextMatch.awayTeam}</HeroTitle><HeroMeta>{formatMatchDate(nextMatch.startsAt)} · {nextMatch.venueName}</HeroMeta></NextMatch> : null}
       <SectionHeader title="Armá tu partido" subtitle="Elegí cómo querés jugar hoy" />
       <ActionsGrid>

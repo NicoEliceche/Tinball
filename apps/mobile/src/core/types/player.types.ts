@@ -36,6 +36,7 @@ export interface PlayerReview {
 
 export interface CurrentPlayerProfile {
   birthDate: string;
+  nickname?: string | null;
   locality: string;
   province: string;
   primaryPosition: Position;

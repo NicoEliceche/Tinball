@@ -51,6 +51,7 @@ export type AuthResponse = z.infer<typeof AuthResponseSchema>;
 
 export const CompleteProfileSchema = z.object({
   displayName: z.string().trim().min(2).max(50),
+  nickname: z.string().trim().max(30).default(''),
   birthDate: z.iso.date(),
   locality: z.string().trim().min(2).max(80),
   province: z.string().trim().min(2).max(80),

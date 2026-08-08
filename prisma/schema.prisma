@@ -424,6 +424,7 @@ model PlayerProfile {
   user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId             String           @unique
   birthDate          DateTime
+  nickname           String?          @db.VarChar(30)
   locality           String           @db.VarChar(80)
   province           String           @db.VarChar(80)
   countryCode        String           @default("AR") @db.Char(2)

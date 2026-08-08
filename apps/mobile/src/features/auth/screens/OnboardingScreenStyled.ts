@@ -30,6 +30,10 @@ export const Label = styled(Text)`
   font-family: ${({ theme }) => theme.typography.family.semibold};
   font-size: ${({ theme }) => theme.typography.size.sm}px;
 `;
+export const RequiredMark = styled(Text)`
+  color: ${({ theme }) => theme.colors.danger};
+  font-family: ${({ theme }) => theme.typography.family.semibold};
+`;
 export const Helper = styled(Text)`
   color: ${({ theme }) => theme.colors.textMuted};
   font-family: ${({ theme }) => theme.typography.family.body};

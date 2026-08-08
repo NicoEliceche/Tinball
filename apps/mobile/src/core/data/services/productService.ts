@@ -12,6 +12,7 @@ interface ProfileResponse {
   settings: UserPreferences | null;
   profile: null | {
     birthDate: string;
+    nickname: string | null;
     locality: string;
     province: string;
     primaryPosition: Position;
@@ -127,6 +128,7 @@ export async function loadProductData(): Promise<ProductData> {
   return {
     currentProfile: profile.profile ? {
       birthDate: profile.profile.birthDate.slice(0, 10),
+      nickname: profile.profile.nickname ?? null,
       locality: profile.profile.locality,
       province: profile.profile.province,
       primaryPosition: profile.profile.primaryPosition,

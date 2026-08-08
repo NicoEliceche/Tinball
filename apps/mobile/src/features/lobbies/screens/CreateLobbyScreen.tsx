@@ -9,7 +9,7 @@ import type { Lobby } from '../../../core/types/lobby.types';
 import { BodyText, Card, ScreenTitle } from '../../../shared/components/DetailPrimitives';
 import { PrimaryButton } from '../../../shared/components/PrimaryButton';
 import { ScrollScreen } from '../../../shared/layout/ScreenLayout';
-import { ErrorText, Field, FieldGroup, Helper, Label, NotesField, Option, Options, OptionText } from './CreateLobbyScreenStyled';
+import { ErrorText, Field, FieldGroup, Helper, Label, NotesField, Option, Options, OptionText, RequiredMark } from './CreateLobbyScreenStyled';
 
 const modes: { value: LobbyMode; label: string; locked?: boolean }[] = [
   { value: 'NEED_ONE', label: 'Me falta uno' },
@@ -104,20 +104,20 @@ export function CreateLobbyScreen() {
   return <ScrollScreen>
     <ScreenTitle>Crear lobby</ScreenTitle>
     <BodyText>Publicá una convocatoria completa para que nadie tenga que adivinar horario, nivel o costo.</BodyText>
-    <FieldGroup><Label>Tipo de convocatoria</Label><Options>{modes.map((item) => <Option key={item.value} $selected={mode === item.value} $locked={item.locked} disabled={item.locked} onPress={() => setMode(item.value)}><OptionText $selected={mode === item.value}>{item.label}</OptionText></Option>)}</Options><Helper>Los desafíos con premio siguen bloqueados hasta completar las aprobaciones legales y antifraude.</Helper></FieldGroup>
-    <FieldGroup><Label>Formato</Label><Options>{formats.map((item) => <Option key={item.value} $selected={format === item.value} onPress={() => setFormat(item.value)}><OptionText $selected={format === item.value}>{item.label}</OptionText></Option>)}</Options><Helper>{requiredPlayers} jugadores en total.</Helper></FieldGroup>
-    <FieldGroup><Label>Título</Label><Field value={title} onChangeText={setTitle} maxLength={80} accessibilityLabel="Título del lobby" /></FieldGroup>
-    <FieldGroup><Label>Localidad</Label><Field value={locality} onChangeText={setLocality} maxLength={80} accessibilityLabel="Localidad" /></FieldGroup>
-    <FieldGroup><Label>Fecha</Label><Field value={date} onChangeText={setDate} maxLength={10} placeholder="AAAA-MM-DD" accessibilityLabel="Fecha del partido" /></FieldGroup>
-    <FieldGroup><Label>Hora</Label><Field value={time} onChangeText={setTime} maxLength={5} placeholder="HH:mm" accessibilityLabel="Hora del partido" /></FieldGroup>
-    <FieldGroup><Label>Duración en minutos</Label><Field value={duration} onChangeText={setDuration} keyboardType="number-pad" maxLength={3} accessibilityLabel="Duración en minutos" /></FieldGroup>
-    <FieldGroup><Label>Nivel mínimo</Label><Options>{levels.map((item) => <Option key={item.value} $selected={skillMin === item.value} onPress={() => setSkillMin(item.value)}><OptionText $selected={skillMin === item.value}>{item.label}</OptionText></Option>)}</Options></FieldGroup>
-    <FieldGroup><Label>Nivel máximo</Label><Options>{levels.map((item) => <Option key={item.value} $selected={skillMax === item.value} onPress={() => setSkillMax(item.value)}><OptionText $selected={skillMax === item.value}>{item.label}</OptionText></Option>)}</Options></FieldGroup>
+    <FieldGroup><Label>Tipo de convocatoria <RequiredMark>*</RequiredMark></Label><Options>{modes.map((item) => <Option key={item.value} $selected={mode === item.value} $locked={item.locked} disabled={item.locked} onPress={() => setMode(item.value)}><OptionText $selected={mode === item.value}>{item.label}</OptionText></Option>)}</Options><Helper>Los desafíos con premio siguen bloqueados hasta completar las aprobaciones legales y antifraude.</Helper></FieldGroup>
+    <FieldGroup><Label>Formato <RequiredMark>*</RequiredMark></Label><Options>{formats.map((item) => <Option key={item.value} $selected={format === item.value} onPress={() => setFormat(item.value)}><OptionText $selected={format === item.value}>{item.label}</OptionText></Option>)}</Options><Helper>{requiredPlayers} jugadores en total.</Helper></FieldGroup>
+    <FieldGroup><Label>Título <RequiredMark>*</RequiredMark></Label><Field value={title} onChangeText={setTitle} maxLength={80} accessibilityLabel="Título del lobby" /></FieldGroup>
+    <FieldGroup><Label>Localidad <RequiredMark>*</RequiredMark></Label><Field value={locality} onChangeText={setLocality} maxLength={80} accessibilityLabel="Localidad" /></FieldGroup>
+    <FieldGroup><Label>Fecha <RequiredMark>*</RequiredMark></Label><Field value={date} onChangeText={setDate} maxLength={10} placeholder="AAAA-MM-DD" accessibilityLabel="Fecha del partido" /></FieldGroup>
+    <FieldGroup><Label>Hora <RequiredMark>*</RequiredMark></Label><Field value={time} onChangeText={setTime} maxLength={5} placeholder="HH:mm" accessibilityLabel="Hora del partido" /></FieldGroup>
+    <FieldGroup><Label>Duración en minutos <RequiredMark>*</RequiredMark></Label><Field value={duration} onChangeText={setDuration} keyboardType="number-pad" maxLength={3} accessibilityLabel="Duración en minutos" /></FieldGroup>
+    <FieldGroup><Label>Nivel mínimo <RequiredMark>*</RequiredMark></Label><Options>{levels.map((item) => <Option key={item.value} $selected={skillMin === item.value} onPress={() => setSkillMin(item.value)}><OptionText $selected={skillMin === item.value}>{item.label}</OptionText></Option>)}</Options></FieldGroup>
+    <FieldGroup><Label>Nivel máximo <RequiredMark>*</RequiredMark></Label><Options>{levels.map((item) => <Option key={item.value} $selected={skillMax === item.value} onPress={() => setSkillMax(item.value)}><OptionText $selected={skillMax === item.value}>{item.label}</OptionText></Option>)}</Options></FieldGroup>
     <FieldGroup><Label>Posiciones que faltan</Label><Options>{positions.map((item) => { const selected = positionsNeeded.includes(item.value); return <Option key={item.value} $selected={selected} onPress={() => setPositionsNeeded((current) => selected ? current.filter((value) => value !== item.value) : [...current, item.value])}><OptionText $selected={selected}>{item.label}</OptionText></Option>; })}</Options><Helper>Opcional; ayuda a ordenar las solicitudes.</Helper></FieldGroup>
     <FieldGroup><Label>Precio estimado por jugador (ARS)</Label><Field value={price} onChangeText={setPrice} keyboardType="decimal-pad" maxLength={10} accessibilityLabel="Precio por jugador" /></FieldGroup>
     <FieldGroup><Label>Visibilidad</Label><Options><Option $selected={!premiumOnly} onPress={() => setPremiumOnly(false)}><OptionText $selected={!premiumOnly}>Toda la comunidad</OptionText></Option><Option $selected={premiumOnly} $locked={!auth?.user.isPremium} disabled={!auth?.user.isPremium} onPress={() => setPremiumOnly(true)}><OptionText $selected={premiumOnly}>Sólo Premium</OptionText></Option></Options>{!auth?.user.isPremium ? <Helper>Necesitás Premium para organizar convocatorias exclusivas.</Helper> : null}</FieldGroup>
     <FieldGroup><Label>Notas</Label><NotesField value={notes} onChangeText={setNotes} multiline textAlignVertical="top" maxLength={500} placeholder="Cancha, camisetas, llegada y cualquier detalle útil." accessibilityLabel="Notas del lobby" /><Helper>{notes.length}/500</Helper></FieldGroup>
-    <Card><Label>Compromiso Tinball</Label><BodyText>Los participantes confirmarán asistencia. Una ausencia injustificada reduce confiabilidad y puede activar un enfriamiento.</BodyText></Card>
+    <Card><Label>Compromiso Tinball</Label><Helper>Los participantes confirmarán asistencia. Una ausencia injustificada reduce confiabilidad y puede activar un enfriamiento.</Helper></Card>
     {error ? <ErrorText accessibilityLiveRegion="polite">{error}</ErrorText> : null}
     <PrimaryButton label="Publicar lobby" icon="arrow-forward-circle-outline" loading={loading} disabled={loading} onPress={create} />
   </ScrollScreen>;
