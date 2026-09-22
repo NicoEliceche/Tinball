@@ -19,12 +19,28 @@ jobs:
     steps:
       - name: Run protected maintenance tasks
         env:
-          API_URL: ${{ secrets.TINBALL_API_URL }}
+          API_URL: ${{ secrets.TINBALL_API_URL || vars.TINBALL_API_URL }}
           WORKER_SECRET: ${{ secrets.TINBALL_WORKER_SECRET }}
         run: |
-          test -n "$API_URL"
-          test -n "$WORKER_SECRET"
-          curl --fail-with-body --silent --show-error --retry 2 \
+          if [ -z "$API_URL" ]; then
+            echo "::error::Missing GitHub secret or variable TINBALL_API_URL"
+            exit 1
+          fi
+
+          if [ -z "$WORKER_SECRET" ]; then
+            echo "::error::Missing GitHub secret TINBALL_WORKER_SECRET"
+            exit 1
+          fi
+
+          API_URL="${API_URL%/}"
+          endpoint="$API_URL/internal/workers/run"
+
+          curl --fail-with-body --silent --show-error \
+            --connect-timeout 20 \
+            --max-time 180 \
+            --retry 3 \
+            --retry-all-errors \
+            --retry-delay 5 \
             --request POST \
             --header "Authorization: Bearer $WORKER_SECRET" \
-            "$API_URL/internal/workers/run"
+            "$endpoint"
